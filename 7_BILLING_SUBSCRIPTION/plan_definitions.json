@@ -1,1 +1,29 @@
+{
+  "plans": [
+    {
+      "id": "free",
+      "name": "ทดลองใช้ฟรี",
+      "price_thb": 0,
+      "limits": { "messages_per_day": 20, "studio_access": false }
+    },
+    {
+      "id": "personal",
+      "name": "ส่วนบุคคล",
+      "price_thb_month": 299,
+      "limits": { "messages": "unlimited", "studio_access": "basic" }
+    },
+    {
+      "id": "pro",
+      "name": "มืออาชีพ",
+      "price_thb_month": 899,
+      "limits": { "studio_access": "full", "system_build": true }
+    },
+    {
+      "id": "enterprise",
+      "name": "ธุรกิจ/องค์กร",
+      "price_thb_month": 9999,
+      "limits": { "all_access": true }
+    }
+  ]
+}
 
