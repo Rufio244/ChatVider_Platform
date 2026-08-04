@@ -1,8 +1,24 @@
+# โหนดและแพ็กเกจ
 node_modules/
-.env
-config_secure.json
-*.log
-.DS_Store
-database/local/
-backup_files/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
+# ข้อมูลสำคัญและลับ
+.env
+.env.local
+database_store/
+backup_files/
+user_projects/
+exports/
+*.log
+
+# ระบบปฏิบัติการ
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ชั่วคราว
+tmp/
+temp/
+*.tmp
