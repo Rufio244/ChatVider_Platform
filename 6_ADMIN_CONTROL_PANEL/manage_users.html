@@ -1,1 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>จัดการผู้ใช้ — เฉพาะเจ้าของ</title>
+  <link rel="stylesheet" href="../5_FRONTEND_PUBLIC/css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="logo">🧠 Vider <span class="owner-badge">เจ้าของ</span></div>
+      <nav>
+        <a href="overview.html">📊 ภาพรวม</a>
+        <a href="manage_plans.html">💳 จัดการแพ็กเกจ</a>
+        <a href="manage_users.html" class="active">👥 ผู้ใช้งาน</a>
+        <a href="revenue_report.html">💰 รายได้</a>
+        <a href="deploy_system.html">🚀 ปรับใช้งาน</a>
+        <a href="system_settings.html">⚙️ ตั้งค่าระบบ</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h2>รายชื่อผู้ใช้งานทั้งหมด</h2>
+      <div class="admin-panel">
+        <input type="text" placeholder="ค้นหา ชื่อ หรือ อีเมล" class="form-control" id="searchUser" style="margin-bottom:1rem;">
+        <table style="width:100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background:#1a1d2b;"><th style="padding:0.75rem;text-align:left;">ชื่อ</th><th>อีเมล</th><th>แพ็กเกจ</th><th>สถานะ</th><th>จัดการ</th></tr>
+          </thead>
+          <tbody id="usersTableBody"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script>
+    async function loadUsers() {
+      const res = await fetch('/api/admin/users', { headers: { Authorization: `Bearer ${localStorage.getItem('vid_auth_token')}` } });
+      const users = await res.json();
+      document.getElementById('usersTableBody').innerHTML = users.map(u => `
+        <tr style="border-bottom:1px solid #2a2f45;">
+          <td style="padding:0.75rem;">${u.fullName}</td>
+          <td>${u.email}</td>
+          <td>${u.planId}</td>
+          <td>${u.status}</td>
+          <td>
+            <button class="btn outline" style="padding:0.4rem 0.7rem;font-size:0.8rem;" onclick="changePlan('${u.userId}')">เปลี่ยนระดับ</button>
+            <button class="btn" style="background:#dc2626;padding:0.4rem 0.7rem;font-size:0.8rem;" onclick="toggleStatus('${u.userId}')">ระงับ/เปิด</button>
+          </td>
+        </tr>`).join('');
+    }
+    loadUsers();
+  </script>
+</body>
+</html>
 
