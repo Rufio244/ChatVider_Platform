@@ -1,29 +1,83 @@
 {
+  "version": "1.0.0",
   "plans": [
     {
       "id": "free",
       "name": "ทดลองใช้ฟรี",
-      "price_thb": 0,
-      "limits": { "messages_per_day": 20, "studio_access": false }
+      "price_thb_month": 0,
+      "price_thb_year": 0,
+      "isTrial": true,
+      "features": {
+        "messages_per_day": 20,
+        "message_length_max": 800,
+        "studio_access": false,
+        "system_build": false,
+        "api_calls_per_day": 0,
+        "storage_mb": 500,
+        "export_formats": ["text"],
+        "priority_support": false
+      }
     },
     {
       "id": "personal",
       "name": "ส่วนบุคคล",
       "price_thb_month": 299,
-      "limits": { "messages": "unlimited", "studio_access": "basic" }
+      "price_thb_year": 2990,
+      "isTrial": false,
+      "features": {
+        "messages_per_day": -1,
+        "message_length_max": 5000,
+        "studio_access": "basic",
+        "system_build": false,
+        "api_calls_per_day": 100,
+        "storage_mb": 2000,
+        "export_formats": ["text","pdf"],
+        "priority_support": false
+      }
     },
     {
       "id": "pro",
-      "name": "มืออาชีพ",
+      "name": "มืออาชีพ / ผู้สร้างงาน",
       "price_thb_month": 899,
-      "limits": { "studio_access": "full", "system_build": true }
+      "price_thb_year": 8990,
+      "isTrial": false,
+      "features": {
+        "messages_per_day": -1,
+        "message_length_max": 20000,
+        "studio_access": "full",
+        "system_build": true,
+        "api_calls_per_day": 2000,
+        "storage_mb": 20000,
+        "export_formats": ["*"],
+        "priority_support": true
+      }
     },
     {
       "id": "enterprise",
-      "name": "ธุรกิจ/องค์กร",
+      "name": "ธุรกิจ / องค์กร",
       "price_thb_month": 9999,
-      "limits": { "all_access": true }
+      "price_thb_year": 99990,
+      "isTrial": false,
+      "customizable": true,
+      "features": {
+        "messages_per_day": -1,
+        "message_length_max": -1,
+        "studio_access": "full",
+        "system_build": true,
+        "api_calls_per_day": -1,
+        "storage_mb": -1,
+        "export_formats": ["*"],
+        "priority_support": true,
+        "whitelabel_domain": true,
+        "multiple_users": true
+      }
     }
-  ]
+  ],
+  "premium_licenses": {
+    "full_technology_rights": {
+      "base_value_usd": 800000000000,
+      "currency": "USD",
+      "notes": "มูลค่าอ้างอิงเทคโนโลยีกรรมสิทธิ์เฉพาะ"
+    }
+  }
 }
-
