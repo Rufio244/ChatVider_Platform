@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายงานรายได้ — เฉพาะเจ้าของ</title>
+  <link rel="stylesheet" href="../5_FRONTEND_PUBLIC/css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="logo">🧠 Vider <span class="owner-badge">เจ้าของ</span></div>
+      <nav>
+        <a href="overview.html">📊 ภาพรวม</a>
+        <a href="manage_plans.html">💳 จัดการแพ็กเกจ</a>
+        <a href="manage_users.html">👥 ผู้ใช้งาน</a>
+        <a href="revenue_report.html" class="active">💰 รายได้</a>
+        <a href="deploy_system.html">🚀 ปรับใช้งาน</a>
+        <a href="system_settings.html">⚙️ ตั้งค่าระบบ</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h2>สรุปรายได้และการชำระเงิน</h2>
+      <div class="grid-admin">
+        <div class="stat-card admin-panel"><h4>ยอดรวมทั้งหมด</h4><p id="allTime" style="font-size:1.75rem">0</p></div>
+        <div class="stat-card admin-panel"><h4>เดือนนี้</h4><p id="monthNow" style="font-size:1.75rem">0</p></div>
+        <div class="stat-card admin-panel"><h4>รอตรวจสอบ</h4><p id="pendingAmt" style="font-size:1.75rem">0</p></div>
+      </div>
+      <div class="admin-panel">
+        <h3>รายการเคลื่อนไหวล่าสุด</h3>
+        <ul id="paymentList" style="margin-top:1rem;"></ul>
+      </div>
+    </main>
+  </div>
+  <script>
+    async function loadReport() {
+      const res = await fetch('/api/admin/revenue', { headers: { Authorization: `Bearer ${localStorage.getItem('vid_auth_token')}` } });
+      const data = await res.json();
+      document.getElementById('allTime').textContent = `${data.allTotal.toLocaleString()} บาท`;
+      document.getElementById('monthNow').textContent = `${data.monthTotal.toLocaleString()} บาท`;
+    }
+    loadReport();
+  </script>
+</body>
+</html>
 
