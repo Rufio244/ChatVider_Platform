@@ -1,1 +1,21 @@
+version: '3.8'
+
+services:
+  chatvider:
+    build: .
+    container_name: chatvider_system
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file: .env
+    volumes:
+      - ./database_store:/app/database_store
+      - ./backup_files:/app/backup_files
+      - ./user_projects:/app/user_projects
+    networks:
+      - vider_network
+
+networks:
+  vider_network:
+    driver: bridge
 
