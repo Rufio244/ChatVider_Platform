@@ -1,27 +1,64 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
+
+const TaskDispatcher = require('./task_dispatcher');
+const ResourceManager = require('./resource_manager');
+const ExtensionHub = require('./extension_hub');
+const HealthMonitor = require('./health_monitor');
+
 const app = express();
-const W1 = require('../1_CORE_FOUNDATION/W1_PureStart');
-const AD = require('../1_CORE_FOUNDATION/AD_MasterControl');
-const Billing = require('../7_BILLING_SUBSCRIPTION/subscription_manager');
+const PORT = process.env.PORT || 3000;
 
-const w1 = new W1(); w1.init();
-const ad = new AD();
-app.use(express.json());
+const dispatcher = new TaskDispatcher();
+const resources = new ResourceManager();
+const extensions = new ExtensionHub();
+const monitor = new HealthMonitor();
 
-app.use((req,res,next)=>{
-  req.ownerCheck = ad;
+app.use(cors());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  req.system = { dispatcher, resources, extensions };
+  monitor.registerRequest(req);
   next();
 });
 
-app.get("/api/status", (req,res)=> res.json({system:"Vider", running:true, owner:"Thanva Phupingbut 244"}));
-
-app.post("/api/chat", async (req,res)=>{
-  const access = ad.checkAccess(req.body.userId, "chat_all", "conversation");
-  if(!access.allowed) return res.status(403).json({error:"ไม่มีสิทธิ์"});
-  res.json({reply:`ได้รับครับ: ${req.body.message}`});
+app.get('/api/system/status', async (req, res) => {
+  const status = {
+    systemName: 'Chat Vider',
+    running: true,
+    version: '1.0.0',
+    owner: 'Thanva Phupingbut 244',
+    health: await monitor.getSummary(),
+    resources: resources.getCurrentUsage()
+  };
+  res.json(status);
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=> console.log(`✅ ทำงานที่พอร์ต ${PORT}`));
+app.post('/api/task/submit', async (req, res) => {
+  try {
+    const result = await dispatcher.addTask(req.body);
+    res.json({ ok: true, taskId: result.id, position: result.position });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
 
+app.get('/api/task/:id', async (req, res) => {
+  const task = dispatcher.getTask(req.params.id);
+  task ? res.json(task) : res.status(404).json({ error: 'ไม่พบรายการ' });
+});
+
+app.use('/static', express.static(path.join(__dirname, '../5_FRONTEND_PUBLIC')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../5_FRONTEND_PUBLIC/index.html')));
+
+app.listen(PORT, () => {
+  console.log(`✅ 🧠 Chat Vider Server ทำงานที่พอร์ต ${PORT}`);
+  monitor.start();
+  dispatcher.startProcessing();
+});
+
+module.exports = app;
