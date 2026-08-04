@@ -1,1 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แดชบอร์ด — Vider</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="logo">🧠 Vider</div>
+      <nav>
+        <a href="dashboard.html" class="active">📋 หน้าแรก</a>
+        <a href="workspace.html">💬 ห้องสนทนา</a>
+        <a href="studio.html">🛠️ Vider Studio</a>
+        <a href="pricing.html">💳 แพ็กเกจ</a>
+        <a href="settings.html">⚙️ การตั้งค่า</a>
+      </nav>
+      <button id="logoutBtn" class="btn outline">ออกจากระบบ</button>
+    </aside>
+
+    <main class="content">
+      <h2>ยินดีต้อนรับกลับมา, <span id="userName"></span></h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>ข้อความทั้งหมด</h3><p id="statMessages">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>งานที่สร้าง</h3><p id="statProjects">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>ระดับสมาชิก</h3><p id="statPlan">ทดลองใช้ฟรี</p>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>
 
