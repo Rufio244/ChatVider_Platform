@@ -1,1 +1,17 @@
+{
+  "system_name": "Chat Vider",
+  "version": "1.0.0",
+  "owner_info": {
+    "name": "Thanva Phupingbut 244",
+    "owner_key": "MASTER-OWNER-ONLY-244"
+  },
+  "database": {
+    "type": "local_or_postgres_mongo",
+    "encryption_enabled": true
+  },
+  "limits": {
+    "max_users_free": 5,
+    "storage_per_user_mb": 2000
+  }
+}
 
