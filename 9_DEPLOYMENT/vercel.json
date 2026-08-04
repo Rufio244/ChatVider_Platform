@@ -1,6 +1,15 @@
 {
   "version": 2,
-  "builds": [{ "src": "4_PROCESSING_SERVER/server.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/api/(.*)", "dest": "4_PROCESSING_SERVER/server.js" }]
+  "builds": [
+    { "src": "4_PROCESSING_SERVER/server.js", "use": "@vercel/node" },
+    { "src": "5_FRONTEND_PUBLIC/**/*", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "4_PROCESSING_SERVER/server.js" },
+    { "src": "/", "dest": "5_FRONTEND_PUBLIC/index.html" },
+    { "src": "/(.*)", "dest": "5_FRONTEND_PUBLIC/$1" }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }
-
