@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>จัดการแพ็กเกจ — เฉพาะเจ้าของ</title>
+  <link rel="stylesheet" href="../5_FRONTEND_PUBLIC/css/style.css">
+  <style>
+    .plan-editor { margin-bottom: 2rem; }
+    .plan-row { display: flex; gap: 0.75rem; align-items: center; padding: 1rem; background: #1a1d2b; border-radius: 0.5rem; margin-bottom: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="logo">🧠 Vider <span class="owner-badge">เจ้าของ</span></div>
+      <nav>
+        <a href="overview.html">📊 ภาพรวม</a>
+        <a href="manage_plans.html" class="active">💳 จัดการแพ็กเกจ</a>
+        <a href="manage_users.html">👥 ผู้ใช้งาน</a>
+        <a href="revenue_report.html">💰 รายได้</a>
+        <a href="deploy_system.html">🚀 ปรับใช้งาน</a>
+        <a href="system_settings.html">⚙️ ตั้งค่าระบบ</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h2>ตั้งค่าแพ็กเกจและราคา</h2>
+      <div class="plan-editor" id="plansList"></div>
+
+      <div class="admin-panel">
+        <h3>เพิ่ม/แก้ไขแพ็กเกจ</h3>
+        <form id="planForm" style="margin-top:1rem;">
+          <div class="form-group"><label>ชื่อแพ็กเกจ</label><input type="text" id="planName" required></div>
+          <div class="form-group"><label>ราคา/เดือน (บาท)</label><input type="number" id="planPrice" required></div>
+          <div class="form-group"><label>รายละเอียดสิทธิ์</label><textarea id="planLimits" rows="4" class="form-control"></textarea></div>
+          <button type="submit" class="btn primary">บันทึกการเปลี่ยนแปลง</button>
+        </form>
+      </div>
+    </main>
+  </div>
+  <script>
+    const API = '/api/admin/plans';
+    async function loadPlans() {
+      const res = await fetch(API, { headers: { Authorization: `Bearer ${localStorage.getItem('vid_auth_token')}` } });
+      const plans = await res.json();
+      const html = plans.map(p => `
+        <div class="plan-row">
+          <strong>${p.name}</strong>
+          <span>${p.price_thb_month || 0} บาท/เดือน</span>
+          <button class="btn outline" onclick="editPlan('${p.id}')">แก้ไข</button>
+          <button class="btn" style="background:#dc2626" onclick="removePlan('${p.id}')">ลบ</button>
+        </div>`).join('');
+      document.getElementById('plansList').innerHTML = html;
+    }
+    document.getElementById('planForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      await fetch(API, {
+        method: 'POST', headers: { 'Content-Type':'application/json', Authorization: `Bearer ${localStorage.getItem('vid_auth_token')}` },
+        body: JSON.stringify({ name: e.target.planName.value, price: e.target.planPrice.value })
+      });
+      loadPlans();
+      e.target.reset();
+    });
+    loadPlans();
+  </script>
+</body>
+</html>
 
