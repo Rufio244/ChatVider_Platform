@@ -1,1 +1,83 @@
+{
+  "version": "1.0.0",
+  "tables": {
+    "system_core": {
+      "description": "ข้อมูลหลักการทำงานระบบ",
+      "fields": {
+        "id": "string primary",
+        "systemStatus": "object",
+        "initializedAt": "datetime",
+        "lastMasterCheck": "datetime",
+        "globalRules": "object"
+      }
+    },
+    "users": {
+      "description": "บัญชีผู้ใช้",
+      "fields": {
+        "userId": "string primary",
+        "email": "string unique",
+        "passwordHash": "string",
+        "fullName": "string",
+        "planId": "string default:'free'",
+        "role": "string enum:user,admin,owner",
+        "registeredAt": "datetime",
+        "status": "string enum:active,suspended,expired"
+      }
+    },
+    "user_profiles": {
+      "description": "ข้อมูลโปรไฟล์และการเรียนรู้",
+      "fields": {
+        "userId": "string primary ref:users",
+        "preferences": "object",
+        "workingStyle": "object",
+        "trustScore": "number default:10",
+        "learnedAt": "datetime"
+      }
+    },
+    "conversations": {
+      "description": "ประวัติการสนทนา",
+      "fields": {
+        "convId": "string primary",
+        "userId": "string ref:users",
+        "title": "string",
+        "createdAt": "datetime",
+        "updatedAt": "datetime"
+      }
+    },
+    "messages": {
+      "description": "รายการข้อความ",
+      "fields": {
+        "msgId": "string primary",
+        "convId": "string ref:conversations",
+        "role": "string",
+        "content": "text",
+        "attachments": "array",
+        "timestamp": "datetime"
+      }
+    },
+    "projects": {
+      "description": "งานและระบบที่สร้าง",
+      "fields": {
+        "projectId": "string primary",
+        "userId": "string ref:users",
+        "name": "string",
+        "type": "string",
+        "files": "array",
+        "createdAt": "datetime"
+      }
+    },
+    "subscriptions": {
+      "description": "การสมัครและการชำระเงิน",
+      "fields": {
+        "subId": "string primary",
+        "userId": "string ref:users",
+        "planId": "string",
+        "startDate": "datetime",
+        "endDate": "datetime",
+        "paymentRef": "string",
+        "status": "string"
+      }
+    }
+  }
+}
 
