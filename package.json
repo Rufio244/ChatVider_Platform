@@ -1,1 +1,32 @@
+{
+  "name": "chatvider-platform",
+  "version": "1.0.0",
+  "description": "Vider AGI — สร้าง สรรค์สร้าง และควบคุมได้โดยเจ้าของ",
+  "main": "4_PROCESSING_SERVER/server.js",
+  "scripts": {
+    "start": "node 4_PROCESSING_SERVER/server.js",
+    "dev": "nodemon 4_PROCESSING_SERVER/server.js",
+    "install-all": "npm install",
+    "backup": "node 3_DATABASE_CORE/backup_system.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "fs-extra": "^11.2.0",
+    "uuid": "^9.0.1",
+    "crypto": "^1.0.1",
+    "node-cron": "^3.0.3",
+    "archiver": "^6.0.1",
+    "stripe": "^15.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "author": "Thanva Phupingbut 244",
+  "license": "Proprietary — All Rights Reserved"
+}
 
