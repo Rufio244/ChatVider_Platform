@@ -62,3 +62,22 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+const textToSpeech = require('@google-cloud/text-to-speech');
+app.post('/api/voice/synthesize', async (req, res) => {
+  try {
+    const { text, lang = 'th-TH' } = req.body;
+    const client = new textToSpeech.TextToSpeechClient();
+    
+    const request = {
+      input: { text },
+      voice: { languageCode: lang, ssmlGender: 'NEUTRAL' },
+      audioConfig: { audioEncoding: 'MP3' },
+    };
+
+    const [response] = await client.synthesizeSpeech(request);
+    res.set({ 'Content-Type': 'audio/mpeg' });
+    res.send(response.audioContent);
+  } catch (err) {
+    res.json({ ok: true, note: 'ใช้ระบบเสียงเบราว์เซอร์แทน', fallback: true });
+  }
+});
