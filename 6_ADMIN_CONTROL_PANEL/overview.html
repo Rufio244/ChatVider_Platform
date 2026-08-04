@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ภาพรวมระบบ — เฉพาะเจ้าของ</title>
+  <link rel="stylesheet" href="../5_FRONTEND_PUBLIC/css/style.css">
+  <style>
+    .admin-panel { background: #141724; border: 1px solid #2a2f45; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .owner-badge { background: #b45309; color: white; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.875rem; }
+    .grid-admin { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="logo">🧠 Vider <span class="owner-badge">เจ้าของ</span></div>
+      <nav>
+        <a href="overview.html" class="active">📊 ภาพรวม</a>
+        <a href="manage_plans.html">💳 จัดการแพ็กเกจ</a>
+        <a href="manage_users.html">👥 ผู้ใช้งาน</a>
+        <a href="revenue_report.html">💰 รายได้</a>
+        <a href="deploy_system.html">🚀 ปรับใช้งาน</a>
+        <a href="system_settings.html">⚙️ ตั้งค่าระบบ</a>
+        <hr style="border-color:#2a2f45; margin:1rem 0;">
+        <a href="../5_FRONTEND_PUBLIC/dashboard.html">↩️ กลับหน้าผู้ใช้</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h2>ภาพรวมการทำงานทั้งระบบ</h2>
+      <div class="grid-admin">
+        <div class="stat-card admin-panel">
+          <h4>สถานะระบบ</h4>
+          <p style="font-size:1.75rem; color:#10b981">ทำงานปกติ</p>
+        </div>
+        <div class="stat-card admin-panel">
+          <h4>จำนวนผู้ใช้ทั้งหมด</h4>
+          <p id="totalUsers" style="font-size:1.75rem">0</p>
+        </div>
+        <div class="stat-card admin-panel">
+          <h4>รายได้รวมเดือนนี้</h4>
+          <p id="totalRevenue" style="font-size:1.75rem">0 บาท</p>
+        </div>
+        <div class="stat-card admin-panel">
+          <h4>การใช้งานเซิร์ฟเวอร์</h4>
+          <p id="serverLoad" style="font-size:1.75rem">0%</p>
+        </div>
+      </div>
+
+      <div class="admin-panel">
+        <h3>กิจกรรมล่าสุดของระบบ</h3>
+        <ul id="activityLog" style="margin-top:1rem; list-style:none;">
+          <li>⏳ กำลังโหลดข้อมูล...</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+  <script>
+    const API = '/api/admin';
+    async function loadOverview() {
+      const res = await fetch(`${API}/overview`, { headers: { Authorization: `Bearer ${localStorage.getItem('vid_auth_token')}` } });
+      const data = await res.json();
+      if (!res.ok) return alert('สิทธิ์ไม่ถูกต้อง');
+      document.getElementById('totalUsers').textContent = data.totalUsers;
+      document.getElementById('totalRevenue').textContent = `${data.monthRevenue.toLocaleString()} บาท`;
+      document.getElementById('serverLoad').textContent = `${data.serverLoad}%`;
+    }
+    loadOverview();
+  </script>
+</body>
+</html>
 
